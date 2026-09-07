@@ -57,7 +57,7 @@ module tb_core;
     wire [XLEN-1:0]  dmem_wdata;
     wire [3:0]       dmem_wr_en;
     wire             dmem_rd_en;
-    reg  [XLEN-1:0]  dmem_rdata;
+    wire [XLEN-1:0]  dmem_rdata;
 
     //=========================================================================
     // Memory arrays
@@ -101,13 +101,10 @@ module tb_core;
     // Read — synchronous
     // Write — byte enable controlled
     //=========================================================================
-    always @(posedge clk) begin
-        // read
-        if (dmem_rd_en) begin
-            dmem_rdata <= dmem[dmem_addr[XLEN-1:2]];
-        end
+    assign dmem_rdata = dmem[dmem_addr[XLEN-1:2]];
 
-        // write with byte enables
+    always @(posedge clk) begin
+    // write with byte enables only
         if (dmem_wr_en[0]) dmem[dmem_addr[XLEN-1:2]][7:0]   <= dmem_wdata[7:0];
         if (dmem_wr_en[1]) dmem[dmem_addr[XLEN-1:2]][15:8]  <= dmem_wdata[15:8];
         if (dmem_wr_en[2]) dmem[dmem_addr[XLEN-1:2]][23:16] <= dmem_wdata[23:16];
@@ -199,7 +196,7 @@ module tb_core;
     initial begin
         // wait for reset + enough cycles for all instructions to complete
         // 5 reset + 5 pipeline fill + 7 instructions * 1 cycle = ~20 cycles
-        repeat(RESET_CYCLE + 25) @(posedge clk);
+        repeat(RESET_CYCLE + 60) @(posedge clk);
 
         $display("");
         $display("========================================");

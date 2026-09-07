@@ -91,6 +91,6 @@ module fetch_unit #(
 // Output assignments
 //-------------------------------------------------------------------------
     assign  pc_o        =   pc_current;
-    assign  oc_plus4_o  =   pc_plus4;   
+    assign  pc_plus4_o  =   pc_plus4;   
 
 endmodule
