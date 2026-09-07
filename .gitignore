@@ -1,0 +1,6 @@
+sim/*.vcd
+sim/*.vvp
+sim/*.log
+syn/output/
+*.swp
+*.bak
